@@ -1,0 +1,13 @@
+{
+  "name": "careconnect",
+  "version": "1.0.0",
+  "description": "CareConnect Hospital Management System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "express": "^5.3.0"
+  }
+}

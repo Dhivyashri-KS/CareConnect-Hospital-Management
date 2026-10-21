@@ -1,0 +1,287 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f3f6fa;
+    color: #243447;
+}
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 240px;
+    height: 100vh;
+    background: #153b4a;
+    color: white;
+    padding: 25px 15px;
+}
+
+.brand {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.brand h2 {
+    font-size: 21px;
+}
+
+.brand small {
+    display: block;
+    margin-top: 5px;
+    color: #b7d2d9;
+    font-size: 10px;
+}
+
+.menu-title {
+    margin: 20px 10px;
+    color: #a8c6ce;
+    font-size: 12px;
+}
+
+.nav {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 7px;
+    background: transparent;
+    color: #d8e8ec;
+    text-align: left;
+    cursor: pointer;
+}
+
+.nav:hover,
+.nav.active {
+    background: #246071;
+    color: white;
+}
+
+.admin-profile {
+    position: absolute;
+    bottom: 25px;
+    left: 20px;
+}
+
+.main-content {
+    margin-left: 240px;
+    padding: 35px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.breadcrumb {
+    color: #168779;
+    font-size: 11px;
+    margin-bottom: 12px;
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+#pageSubtitle {
+    color: #718294;
+}
+
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card,
+.action-card,
+.contentbox,
+.panel {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    border: 1px solid #e7edf1;
+}
+
+.stat-card p {
+    color: #718294;
+    margin: 12px 0;
+}
+
+.stat-card h2 {
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+.stat-card small,
+.action-card small {
+    color: #718294;
+}
+
+.card-icon {
+    font-size: 25px;
+    margin-bottom: 15px;
+}
+
+.blue { color: #5278cf; }
+.green { color: #168779; }
+.orange { color: #ca832b; }
+.purple { color: #7d5cc5; }
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.action-card {
+    text-align: left;
+    cursor: pointer;
+}
+
+.action-card:hover {
+    border-color: #168779;
+}
+
+.action-card span,
+.action-card strong,
+.action-card small {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.action-card span {
+    color: #168779;
+    font-size: 25px;
+}
+
+.action-card strong {
+    font-size: 14px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    padding: 15px;
+    border-bottom: 1px solid #e7edf1;
+    text-align: left;
+}
+
+th {
+    color: #718294;
+    background: #f8fafc;
+    font-size: 12px;
+}
+
+.contentbox {
+    margin-bottom: 20px;
+    overflow-x: auto;
+}
+
+.contentbox h2,
+.panel h2 {
+    margin-bottom: 18px;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+.primary-btn {
+    background: #168779;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.modal {
+    margin: auto;
+    width: 90%;
+    max-width: 500px;
+    padding: 25px;
+    border: none;
+    border-radius: 12px;
+}
+
+.modal::backdrop {
+    background: #153b4a99;
+}
+
+.modal label {
+    display: block;
+    margin: 15px 0;
+}
+
+.modal input,
+.modal select {
+    display: block;
+    width: 100%;
+    padding: 11px;
+    margin-top: 7px;
+    border: 1px solid #d5dfe5;
+    border-radius: 6px;
+}
+
+.close-btn {
+    float: right;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+footer {
+    margin-top: 35px;
+    color: #718294;
+    font-size: 12px;
+}
+
+@media (max-width: 900px) {
+    .dashboard-cards,
+    .quick-actions {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    .admin-profile {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .dashboard-cards,
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+}

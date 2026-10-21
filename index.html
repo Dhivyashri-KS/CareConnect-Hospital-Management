@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareConnect | Hospital Management</title>
+
+<style>
+:root {
+    --primary: #087f8c;
+    --primary-dark: #066570;
+    --background: #f3f7fa;
+    --white: #ffffff;
+    --text: #233044;
+    --muted: #6b7a90;
+    --border: #dfe7ef;
+    --danger: #d93045;
+    --success: #16865c;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--text);
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 245px;
+    background: #102d42;
+    color: white;
+    padding: 24px 14px;
+    flex-shrink: 0;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 0 12px 28px;
+}
+
+.logo span {
+    color: #52d5d1;
+}
+
+.nav-label {
+    color: #a8c1d0;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 12px;
+}
+
+.nav-button {
+    display: block;
+    width: 100%;
+    padding: 13px 12px;
+    margin-bottom: 5px;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    color: #e3edf4;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.nav-button:hover,
+.nav-button.active {
+    background: var(--primary);
+    color: white;
+}
+
+.main {
+    flex: 1;
+    min-width: 0;
+}
+
+.topbar {
+    background: white;
+    min-height: 76px;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    gap: 15px;
+}
+
+.topbar h2 {
+    margin: 0;
+    font-size: 23px;
+}
+
+.topbar p {
+    margin: 5px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.admin-badge {
+    background: #e2f5f3;
+    color: var(--primary-dark);
+    padding: 10px 14px;
+    border-radius: 22px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.content {
+    padding: 28px;
+    max-width: 1600px;
+    margin: auto;
+}
+
+.welcome {
+    margin-bottom: 24px;
+}
+
+.welcome h1 {
+    font-size: 27px;
+    margin: 0 0 8px;
+}
+
+.welcome p {
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 3px 12px rgba(20, 45, 70, 0.03);
+}
+
+.stat-card .label {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.stat-card .number {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 12px;
+    color: var(--primary-dark);
+}
+
+.panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 22px;
+    box-shadow: 0 3px 12px rgba(20, 45, 70, 0.03);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.panel-header h2 {
+    font-size: 19px;
+    margin: 0;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.search-input {
+    padding: 11px 13px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    width: 230px;
+    max-width: 100%;
+}
+
+.btn {
+    border: 0;
+    border-radius: 7px;
+    padding: 11px 15px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-secondary {
+    background: #e9eef3;
+    color: #334155;
+}
+
+.btn-danger {
+    background: #fff0f1;
+    color: var(--danger);
+}
+
+.btn-small {
+    padding: 7px 10px;
+    font-size: 12px;
+    margin: 2px;
+}
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th,
+td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #edf1f5;
+    text-align: left;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+th {
+    background: #f7fafc;
+    color: #536579;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+tbody tr:hover {
+    background: #fafcfd;
+}
+
+.empty {
+    text-align: center;
+    padding: 35px 15px;
+    color: var(--muted);
+}
+
+.message {
+    padding: 13px 15px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    display: none;
+    line-height: 1.5;
+}
+
+.message.error {
+    display: block;
+    color: #a61b2b;
+    background: #fff0f1;
+    border: 1px solid #ffd1d7;
+}
+
+.message.success {
+    display: block;
+    color: #126b4b;
+    background: #e8f7ef;
+    border: 1px solid #bce9d0;
+}
+
+.form-panel {
+    display: none;
+}
+
+.form-panel.open {
+    display: block;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 17px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: bold;
+    color: #425368;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #d7e0e8;
+    border-radius: 7px;
+    background: white;
+    color: var(--text);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    background: #edf2f7;
+    color: #425368;
+}
+
+.status.available,
+.status.paid,
+.status.completed,
+.status.occupied {
+    background: #e3f7eb;
+    color: #187448;
+}
+
+.status.pending,
+.status.scheduled,
+.status.unpaid,
+.status.in-progress {
+    background: #fff4d8;
+    color: #946200;
+}
+
+.status.cancelled,
+.status.maintenance {
+    background: #ffe8e8;
+    color: #b42332;
+}
+
+.dashboard-shortcuts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.shortcut {
+    text-align: left;
+    background: #f8fbfd;
+    border: 1px solid var(--border);
+    padding: 18px;
+    border-radius: 9px;
+    cursor: pointer;
+    color: var(--text);
+}
+
+.shortcut:hover {
+    border-color: var(--primary);
+    background: #effafa;
+}
+
+.shortcut strong {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 15px;
+}
+
+.shortcut span {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.footer {
+    color: var(--muted);
+    text-align: center;
+    font-size: 12px;
+    padding: 10px 0 25px;
+}
+
+@media (max-width: 1000px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .app {
+        display: block;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .logo {
+        padding: 5px 8px 15px;
+    }
+
+    .nav-label {
+        display: none;
+    }
+
+    .nav-menu {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4px;
+    }
+
+    .nav-button {
+        margin: 0;
+        font-size: 12px;
+        padding: 11px 8px;
+    }
+
+    .topbar {
+        padding: 18px;
+    }
+
+    .content {
+        padding: 16px;
+    }
+
+    .stats {
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-card .number {
+        font-size: 25px;
+    }
+
+    .form-grid,
+    .dashboard-shortcuts {
+        grid-template-columns: 1fr;
+    }
+
+    .search-input {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+    <aside class="sidebar">
+        <div class="logo">Care<span>Connect</span></div>
+
+        <div class="nav-label">Main Menu</div>
+
+        <nav class="nav-menu" id="navigation">
+            <button class="nav-button active" data-page="dashboard">▦ Dashboard</button>
+            <button class="nav-button" data-page="patients">♙ Patients</button>
+            <button class="nav-button" data-page="doctors">⚕ Doctors</button>
+            <button class="nav-button" data-page="appointments">▣ Appointments</button>
+            <button class="nav-button" data-page="laboratory">⚗ Laboratory</button>
+            <button class="nav-button" data-page="beds">▤ Beds &amp; Rooms</button>
+            <button class="nav-button" data-page="billing">₹ Billing</button>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div>
+                <h2 id="pageTitle">Dashboard</h2>
+                <p>Hospital Management System</p>
+            </div>
+            <div class="admin-badge">● Administrator</div>
+        </header>
+
+        <div class="content">
+            <div id="globalMessage" class="message"></div>
+            <div id="pageContent"></div>
+        </div>
+
+        <div class="footer">CareConnect Hospital Management System</div>
+    </main>
+
+</div>
+
+<script>
+"use strict";
+
+/*
+  IMPORTANT:
+  This frontend expects server.js API endpoints:
+  /api/patients
+  /api/doctors
+  /api/appointments
+  /api/laboratory
+  /api/beds
+  /api/billing
+
+  Open the site through http://localhost:3000.
+  Do not open index.html directly as a file.
+*/
+
+const API = "/api";
+
+const MODULES = {
+    patients: {
+        title: "Patients",
+        endpoint: "patients",
+        singular: "Patient",
+        fields: [
+            { key: "name", label: "Patient Name", required: true },
+            { key: "age", label: "Age", type: "number", required: true },
+            { key: "gender", label: "Gender", type: "select", options: ["Female", "Male", "Other"], required: true },
+            { key: "phone", label: "Phone Number", type: "tel" },
+            { key: "blood", label: "Blood Group", type: "select", options: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"] },
+            { key: "address", label: "Address", type: "textarea" }
+        ]
+    },
+
+    doctors: {
+        title: "Doctors",
+        endpoint: "doctors",
+        singular: "Doctor",
+        fields: [
+            { key: "name", label: "Doctor Name", required: true },
+            { key: "specialization", label: "Specialization", required: true },
+            { key: "phone", label: "Phone Number", type: "tel" },
+            { key: "email", label: "Email", type: "email" }
+        ]
+    },
+
+    appointments: {
+        title: "Appointments",
+        endpoint: "appointments",
+        singular: "Appointment",
+        fields: [
+            { key: "patient_name", label: "Patient Name", required: true },
+            { key: "doctor_name", label: "Doctor Name", required: true },
+            { key: "appointment_date", label: "Appointment Date", type: "date", required: true },
+            { key: "appointment_time", label: "Appointment Time", type: "time", required: true },
+            { key: "status", label: "Status", type: "select", options: ["Scheduled", "Completed", "Cancelled"], required: true }
+        ]
+    },
+
+    laboratory: {
+        title: "Laboratory",
+        endpoint: "laboratory",
+        singular: "Laboratory Test",
+        fields: [
+            { key: "test_name", label: "Test Name", required: true },
+            { key: "patient_name", label: "Patient Name", required: true },
+            { key: "test_date", label: "Test Date", type: "date", required: true },
+            { key: "result", label: "Result", type: "textarea" },
+            { key: "status", label: "Status", type: "select", options: ["Pending", "In Progress", "Completed"], required: true }
+        ]
+    },
+
+    beds: {
+        title: "Beds & Rooms",
+        endpoint: "beds",
+        singular: "Bed / Room",
+        fields: [
+            { key: "room_number", label: "Room Number", required: true },
+            { key: "bed_number", label: "Bed Number", required: true },
+            { key: "bed_type", label: "Bed Type", type: "select", options: ["General", "Private", "ICU", "Emergency"], required: true },
+            { key: "status", label: "Status", type: "select", options: ["Available", "Occupied", "Maintenance"], required: true }
+        ]
+    },
+
+    billing: {
+        title: "Billing",
+        endpoint: "billing",
+        singular: "Bill",
+        fields: [
+            { key: "patient_name", label: "Patient Name", required: true },
+            { key: "amount", label: "Amount", type: "number", required: true },
+            { key: "bill_date", label: "Bill Date", type: "date", required: true },
+            { key: "payment_status", label: "Payment Status", type: "select", options: ["Unpaid", "Paid", "Partially Paid"], required: true },
+            { key: "description", label: "Description", type: "textarea" }
+        ]
+    }
+};
+
+const pageContent = document.getElementById("pageContent");
+const pageTitle = document.getElementById("pageTitle");
+const globalMessage = document.getElementById("globalMessage");
+
+let currentPage = "dashboard";
+let currentRows = [];
+let searchText = "";
+let editingId = null;
+let requestVersion = 0;
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, function(char) {
+        return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        }[char];
+    });
+}
+
+function showMessage(text, type = "error") {
+    globalMessage.className = "message " + type;
+    globalMessage.textContent = text;
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    if (type === "success") {
+        setTimeout(() => {
+            if (globalMessage.textContent === text) {
+                globalMessage.className = "message";
+                globalMessage.textContent = "";
+            }
+        }, 4000);
+    }
+}
+
+function clearMessage() {
+    globalMessage.className = "message";
+    globalMessage.textContent = "";
+}
+
+async function apiRequest(path, options = {}) {
+    const response = await fetch(API + path, {
+        ...options,
+        headers: {
+            ...(options.body ? { "Content-Type": "application/json" } : {}),
+            ...(options.headers || {})
+        }
+    });
+
+    const rawText = await response.text();
+    let result = null;
+
+    if (rawText) {
+        try {
+            result = JSON.parse(rawText);
+        } catch {
+            throw new Error(
+                "Server returned a non-JSON response. Check server.js routes and restart npm start."
+            );
+        }
+    }
+
+    if (!response.ok) {
+        throw new Error(
+            result?.error || result?.message || `Request failed (${response.status})`
+        );
+    }
+
+    return result;
+}
+
+function getRecordId(record) {
+    return record.id;
+}
+
+function formatValue(value) {
+    if (value === null || value === undefined || value === "") {
+        return "—";
+    }
+
+    return String(value);
+}
+
+function statusHTML(value) {
+    const safeValue = formatValue(value);
+    const className = safeValue.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
+    return `<span class="status ${escapeHTML(className)}">${escapeHTML(safeValue)}</span>`;
+}
+
+function fieldInput(field, value = "") {
+    const id = "field_" + field.key;
+    const safeValue = escapeHTML(value);
+
+    let inputHTML = "";
+
+    if (field.type === "select") {
+        const options = field.options.map(option => {
+            const selected = String(value) === option ? " selected" : "";
+            return `<option value="${escapeHTML(option)}"${selected}>${escapeHTML(option)}</option>`;
+        }).join("");
+
+        inputHTML = `
+            <select id="${id}" name="${field.key}" ${field.required ? "required" : ""}>
+                <option value="">Select ${escapeHTML(field.label)}</option>
+                ${options}
+            </select>`;
+    } else if (field.type === "textarea") {
+        inputHTML = `
+            <textarea id="${id}" name="${field.key}"
+                ${field.required ? "required" : ""}
+                placeholder="Enter ${escapeHTML(field.label.toLowerCase())}">${safeValue}</textarea>`;
+    } else {
+        const type = field.type || "text";
+        inputHTML = `
+            <input
+                id="${id}"
+                name="${field.key}"
+                type="${type}"
+                value="${safeValue}"
+                ${field.required ? "required" : ""}
+                ${type === "number" ? 'min="0" step="any"' : ""}
+                placeholder="Enter ${escapeHTML(field.label.toLowerCase())}"
+            >`;
+    }
+
+    return `
+        <div class="form-group">
+            <label for="${id}">${escapeHTML(field.label)}${field.required ? " *" : ""}</label>
+            ${inputHTML}
+        </div>`;
+}
+
+function dashboardHTML() {
+    return `
+        <section class="welcome">
+            <h1>Welcome to CareConnect 👋</h1>
+            <p>Manage your hospital operations, staff, patients and services in one place.</p>
+        </section>
+
+        <section class="stats" id="dashboardStats">
+            ${["Patients", "Doctors", "Appointments", "Laboratory Tests",
+               "Beds & Rooms", "Bills"].map(label => `
+                <div class="stat-card">
+                    <div class="label">${label}</div>
+                    <div class="number">—</div>
+                </div>`).join("")}
+        </section>
+
+        <section class="panel">
+            <div class="panel-header">
+                <h2>Hospital Management Modules</h2>
+            </div>
+
+            <div class="dashboard-shortcuts">
+                ${Object.entries(MODULES).map(([key, module]) => `
+                    <button class="shortcut" data-shortcut="${key}">
+                        <strong>${escapeHTML(module.title)} →</strong>
+                        <span>View and manage ${escapeHTML(module.title.toLowerCase())}</span>
+                    </button>
+                `).join("")}
+            </div>
+        </section>
+    `;
+}
+
+function renderDashboardCounts(counts) {
+    const stats = document.getElementById("dashboardStats");
+    if (!stats) return;
+
+    const values = [
+        ["Patients", counts.patients],
+        ["Doctors", counts.doctors],
+        ["Appointments", counts.appointments],
+        ["Laboratory Tests", counts.laboratory],
+        ["Beds & Rooms", counts.beds],
+        ["Bills", counts.billing]
+    ];
+
+    stats.innerHTML = values.map(([label, count]) => `
+        <div class="stat-card">
+            <div class="label">${escapeHTML(label)}</div>
+            <div class="number">${count === null ? "!" : count}</div>
+        </div>
+    `).join("");
+}
+
+async function loadDashboardCounts() {
+    const keys = Object.keys(MODULES);
+
+    const results = await Promise.all(keys.map(async key => {
+        try {
+            const data = await apiRequest("/" + MODULES[key].endpoint);
+            if (!Array.isArray(data)) return [key, null];
+            return [key, data.length];
+        } catch {
+            return [key, null];
+        }
+    }));
+
+    renderDashboardCounts(Object.fromEntries(results));
+}
+
+function renderModuleTable(module, rows) {
+    const fields = module.fields;
+
+    if (!rows.length) {
+        return `
+            <tr>
+                <td colspan="${fields.length + 2}" class="empty">
+                    No ${escapeHTML(module.title.toLowerCase())} found.
+                    Click <strong>+ Add ${escapeHTML(module.singular)}</strong> to create your first record.
+                </td>
+            </tr>`;
+    }
+
+    return rows.map(row => {
+        const cells = fields.map(field => {
+            const value = row[field.key];
+
+            if (field.key === "status" || field.key === "payment_status") {
+                return `<td>${statusHTML(value)}</td>`;
+            }
+
+            if (field.key === "amount") {
+                return `<td>${escapeHTML(value === "" || value == null ? "—" : "₹ " + value)}</td>`;
+            }
+
+            return `<td>${escapeHTML(formatValue(value))}</td>`;
+        }).join("");
+
+        const id = escapeHTML(getRecordId(row));
+
+        return `
+            <tr>
+                <td>${id}</td>
+                ${cells}
+                <td>
+                    <button class="btn btn-secondary btn-small" data-edit="${id}">Edit</button>
+                    <button class="btn btn-danger btn-small" data-delete="${id}">Delete</button>
+                </td>
+            </tr>`;
+    }).join("");
+}
+
+function moduleHTML(module) {
+    const formFields = module.fields.map(field => fieldInput(field)).join("");
+
+    return `
+        <section class="panel">
+            <div class="panel-header">
+                <h2>${escapeHTML(module.title)} Management</h2>
+
+                <div class="toolbar">
+                    <input
+                        id="searchInput"
+                        class="search-input"
+                        type="search"
+                        placeholder="Search ${escapeHTML(module.title.toLowerCase())}..."
+                        value="${escapeHTML(searchText)}"
+                    >
+                    <button class="btn btn-primary" id="addButton">+ Add ${escapeHTML(module.singular)}</button>
+                </div>
+            </div>
+
+            <div id="moduleMessage" class="message"></div>
+
+            <section class="panel form-panel" id="formPanel">
+                <div class="panel-header">
+                    <h2 id="formTitle">Add ${escapeHTML(module.singular)}</h2>
+                </div>
+
+                <form id="recordForm">
+                    <div class="form-grid">${formFields}</div>
+
+                    <div class="form-actions">
+                        <button class="btn btn-primary" id="saveButton" type="submit">Save Record</button>
+                        <button class="btn btn-secondary" id="cancelButton" type="button">Cancel</button>
+                    </div>
+                </form>
+            </section>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            ${module.fields.map(field => `<th>${escapeHTML(field.label)}</th>`).join("")}
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr><td colspan="${module.fields.length + 2}" class="empty">Loading records...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    `;
+}
+
+function showModuleMessage(text, type = "error") {
+    const element = document.getElementById("moduleMessage");
+    if (!element) {
+        showMessage(text, type);
+        return;
+    }
+
+    element.className = "message " + type;
+    element.textContent = text;
+}
+
+function filteredRows() {
+    const query = searchText.trim().toLowerCase();
+
+    if (!query) return currentRows;
+
+    return currentRows.filter(row =>
+        Object.values(row).some(value =>
+            String(value ?? "").toLowerCase().includes(query)
+        )
+    );
+}
+
+function refreshTable() {
+    const tbody = document.getElementById("tableBody");
+    if (!tbody) return;
+
+    const module = MODULES[currentPage];
+    tbody.innerHTML = renderModuleTable(module, filteredRows());
+}
+
+async function loadModuleData() {
+    const module = MODULES[currentPage];
+    const thisRequest = ++requestVersion;
+    const tbody = document.getElementById("tableBody");
+
+    if (tbody) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="${module.fields.length + 2}" class="empty">Loading records...</td>
+            </tr>`;
+    }
+
+    try {
+        const data = await apiRequest("/" + module.endpoint);
+
+        if (thisRequest !== requestVersion || currentPage !== module.endpoint) {
+            return;
+        }
+
+        if (!Array.isArray(data)) {
+            throw new Error("Unexpected API response. Expected a JSON array.");
+        }
+
+        currentRows = data;
+        refreshTable();
+    } catch (error) {
+        if (thisRequest !== requestVersion) return;
+
+        currentRows = [];
+
+        if (tbody) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="${module.fields.length + 2}" class="empty">
+                        Could not load ${escapeHTML(module.title)}.<br><br>
+                        ${escapeHTML(error.message)}<br><br>
+                        Check that server.js has the <code>/api/${escapeHTML(module.endpoint)}</code> route,
+                        then restart the server.
+                    </td>
+                </tr>`;
+        }
+
+        showModuleMessage("Unable to load " + module.title + ": " + error.message);
+    }
+}
+
+function openForm(record = null) {
+    const module = MODULES[currentPage];
+    const form = document.getElementById("recordForm");
+    const panel = document.getElementById("formPanel");
+
+    if (!form || !panel) return;
+
+    editingId = record ? record.id : null;
+    form.reset();
+
+    module.fields.forEach(field => {
+        const input = form.elements[field.key];
+        if (input && record) {
+            input.value = record[field.key] ?? "";
+        }
+    });
+
+    document.getElementById("formTitle").textContent =
+        (record ? "Edit " : "Add ") + module.singular;
+
+    document.getElementById("saveButton").textContent =
+        record ? "Update Record" : "Save Record";
+
+    panel.classList.add("open");
+    panel.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    const firstField = module.fields[0];
+    if (firstField) {
+        document.getElementById("field_" + firstField.key)?.focus();
+    }
+}
+
+function closeForm() {
+    const panel = document.getElementById("formPanel");
+    const form = document.getElementById("recordForm");
+
+    if (panel) panel.classList.remove("open");
+    if (form) form.reset();
+
+    editingId = null;
+}
+
+async function saveRecord(event) {
+    event.preventDefault();
+
+    const module = MODULES[currentPage];
+    const form = event.currentTarget;
+    const saveButton = document.getElementById("saveButton");
+
+    const payload = {};
+
+    for (const field of module.fields) {
+        const input = form.elements[field.key];
+        let value = input ? input.value.trim() : "";
+
+        if (field.required && !value) {
+            showModuleMessage(field.label + " is required.");
+            input?.focus();
+            return;
+        }
+
+        if (field.type === "number" && value !== "") {
+            value = Number(value);
+
+            if (!Number.isFinite(value) || value < 0) {
+                showModuleMessage(field.label + " must be a valid non-negative number.");
+                input?.focus();
+                return;
+            }
+        }
+
+        payload[field.key] = value;
+    }
+
+    const isEditing = editingId !== null && editingId !== undefined;
+    const url = "/" + module.endpoint + (isEditing ? "/" + encodeURIComponent(editingId) : "");
+
+    saveButton.disabled = true;
+    saveButton.textContent = "Saving...";
+
+    try {
+        await apiRequest(url, {
+            method: isEditing ? "PUT" : "POST",
+            body: JSON.stringify(payload)
+        });
+
+        closeForm();
+        showModuleMessage(module.singular + (isEditing ? " updated" : " added") + " successfully.", "success");
+
+        await loadModuleData();
+    } catch (error) {
+        showModuleMessage("Could not save record: " + error.message);
+    } finally {
+        saveButton.disabled = false;
+        saveButton.textContent = editingId !== null ? "Update Record" : "Save Record";
+    }
+}
+
+async function deleteRecord(id) {
+    const module = MODULES[currentPage];
+    const record = currentRows.find(row => String(row.id) === String(id));
+
+    if (!record) {
+        showModuleMessage("Record not found. Refresh and try again.");
+        return;
+    }
+
+    const displayName = record.name ||
+        record.patient_name ||
+        record.test_name ||
+        record.room_number ||
+        ("ID " + id);
+
+    if (!confirm(`Delete ${module.singular} "${displayName}"? This action cannot be undone.`)) {
+        return;
+    }
+
+    try {
+        await apiRequest("/" + module.endpoint + "/" + encodeURIComponent(id), {
+            method: "DELETE"
+        });
+
+        showModuleMessage(module.singular + " deleted successfully.", "success");
+        await loadModuleData();
+    } catch (error) {
+        showModuleMessage("Delete failed: " + error.message);
+    }
+}
+
+function renderPage(page) {
+    clearMessage();
+
+    if (page !== "dashboard" && !MODULES[page]) {
+        page = "dashboard";
+    }
+
+    currentPage = page;
+    searchText = "";
+    editingId = null;
+    currentRows = [];
+
+    document.querySelectorAll(".nav-button").forEach(button => {
+        button.classList.toggle("active", button.dataset.page === page);
+    });
+
+    if (page === "dashboard") {
+        pageTitle.textContent = "Dashboard";
+        pageContent.innerHTML = dashboardHTML();
+        loadDashboardCounts();
+        return;
+    }
+
+    const module = MODULES[page];
+
+    pageTitle.textContent = module.title;
+    pageContent.innerHTML = moduleHTML(module);
+
+    document.getElementById("addButton").addEventListener("click", () => openForm());
+
+    document.getElementById("cancelButton").addEventListener("click", closeForm);
+
+    document.getElementById("recordForm").addEventListener("submit", saveRecord);
+
+    document.getElementById("searchInput").addEventListener("input", event => {
+        searchText = event.target.value;
+        refreshTable();
+    });
+
+    document.getElementById("tableBody").addEventListener("click", event => {
+        const editButton = event.target.closest("[data-edit]");
+        const deleteButton = event.target.closest("[data-delete]");
+
+        if (editButton) {
+            const id = editButton.dataset.edit;
+            const record = currentRows.find(row => String(row.id) === String(id));
+
+            if (record) openForm(record);
+        }
+
+        if (deleteButton) {
+            deleteRecord(deleteButton.dataset.delete);
+        }
+    });
+
+    loadModuleData();
+}
+
+document.getElementById("navigation").addEventListener("click", event => {
+    const button = event.target.closest("[data-page]");
+    if (!button) return;
+
+    renderPage(button.dataset.page);
+});
+
+pageContent.addEventListener("click", event => {
+    const shortcut = event.target.closest("[data-shortcut]");
+    if (!shortcut) return;
+
+    renderPage(shortcut.dataset.shortcut);
+});
+
+renderPage("dashboard");
+</script>
+</body>
+</html>
